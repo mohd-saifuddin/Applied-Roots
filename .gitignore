@@ -1,0 +1,23 @@
+# Files
+*.pyc
+*.sql
+*.db
+*.jpeg
+*.png
+*.sqlite
+hashes.txt
+Reviews.csv
+nofap_dates.txt
+mnist_test.csv
+mnist_train.csv
+cleaned_strings
+cleaned_string.csv
+glove_vectors
+preprocessed_data.csv
+resources.csv
+train_data.csv
+
+# Directories
+.ipynb_checkpoints
+Books
+demo_data

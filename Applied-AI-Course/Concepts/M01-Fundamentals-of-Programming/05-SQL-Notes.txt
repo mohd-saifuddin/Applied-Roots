@@ -1,0 +1,1664 @@
+USE imdb;
+To tell MySQL, what DB I want to use.
+
+####################################################################################################
+
+SHOW TABLES;
++------------------+
+| Tables_in_imdb   |
++------------------+
+| actors           |
+| directors        |
+| directors_genres |
+| movies           |
+| movies_directors |
+| movies_genres    |
+| roles            |
++------------------+
+To see all the tables in the DB.
+
+####################################################################################################
+
+DESCRIBE movies;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id        | int          | NO   | PRI | 0       |       |
+| name      | varchar(100) | YES  | MUL | NULL    |       |
+| year      | int          | YES  |     | NULL    |       |
+| rankscore | float        | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+Describes the table columns.
+
+####################################################################################################
+
+SELECT
+
+SELECT * FROM movies;
+
+Prints all the columns present in the given table.
+This query is slower because it retrieves all the columns.
+
+SELECT name, year FROM movies;
+
+Only prints selected columns from the given table.
+The is execution of the query is faster and there is less data transfer.
+
+** Result-Set
+The output which we get after the execution of the query. It is basically another table with rows and selected columns.
+Set of rows that form the result of a query along with column names and meta data.
+
+** Simple SELECT queries preserve the order of the rows of table. This is called as Row Order Preservation.
+
+####################################################################################################
+
+LIMIT
+
+SELECT name, rankscore
+FROM movies
+LIMIT 20;
+
+It limits the display of records based on the number provided.
+
+####################################################################################################
+
+OFFSET
+
+SELECT name, rankscore
+FROM movies
+LIMIT 20
+OFFSET 20;
+
+It tells, how many rows from the start to ignore.
+
+####################################################################################################
+
+ORDER BY
+
+When using LIMIT and OFFSET, it is a good approach to use ORDER BY to order the result set properly.
+SQL does not guarantee proper order unless we mention ORDER BY <something>.
+The result set will not be in same order of table because ORDER BY orders according to column name specified.
+
+SELECT name, year, rankscore
+FROM movies 
+ORDER BY rankscore DESC
+LIMIT 10;
+
+This gives me top 10 highly rated movies.
+
+SELECT name, year, ranscore
+FROM movies
+ORDER BY year, rankscore DESC
+LIMIt 50;
+
+ORDER BY can also take multiple columns to order the result set.
+
+####################################################################################################
+
+DISTINCT
+
+SELECT DISTINCT genre FROM movies_genres;
++-------------+
+| genre       |
++-------------+
+| Documentary |
+| Short       |
+| Comedy      |
+| Crime       |
+| Western     |
+| Family      |
+| Animation   |
+| Drama       |
+| Romance     |
+| Mystery     |
+| Thriller    |
+| Adult       |
+| Music       |
+| Action      |
+| Fantasy     |
+| Sci-Fi      |
+| Horror      |
+| War         |
+| Musical     |
+| Adventure   |
+| Film-Noir   |
++-------------+
+It selects distinct values in the given column.
+
+SELECT DISTINCT first_name, last_name
+FROM directors;
+
+Here DISTINCT is applied to both the columns. It can be applied to single column or multiple columns.
+
+####################################################################################################
+
+WHERE
+
+SELECT name, year, rankscore 
+FROM movies 
+WHERE rankscore > 9;
+
+This is a conditional selection. WHERE is always followed by a condition.
+Conditions: TRUE, FALSE, NULL
+Comparion Operators: <, >, <=, >=, =, != / <>
+Logical Operators: AND, OR, NOT, ALL, ANY, BETWEEN, EXISTS, IN, LIKE, SOME
+
+SELECT name, year, rankscore
+FROM movies
+WHERE rankscore > 9
+ORDER BY rankscore DESC
+LIMIT 50;
+
+This prints the top 50 name, year and rankscore.
+
+SELECT name, year, rankscore
+FROM movies
+WHERE rankscore >= 9
+AND year >= 2003
+ORDER BY year DESC;
+
+This prints movie details whose rankscore is >= 9 and year is >= 2003 and orders then in a descending order.
+
+####################################################################################################
+
+NULL
+
+NULL means unknown/missing/doesn't exist. It is special keyword in SQL.
+In SQL empty strings ('') are not NULL and considered as a value.
+
+SELECT name, year, rankscore
+FROM movies
+WHERE rankscore = NULL;
+
+This query returns nothing because comparision operators don't work with NULL.
+We should use, IS NULL or IS NOT NULL.
+
+SELECT name, year, rankscore
+FROM movies
+WHERE rankscore IS NOT NULL
+ORDER BY rankscore DESC
+LIMIT 250;
+
+This query fetches the best 250 movies whose rating is not NULL.
+
+####################################################################################################
+
+** SQL queries are processed in the below order.
+FROM
+ON
+JOIN
+WHERE
+GROUP BY
+WITH
+HAVING
+SELECT
+DISTINCT
+ORDER BY
+TOP
+
+####################################################################################################
+
+Logical Operators
+
+AND, OR, NOT, ANY, ALL, BETWEEN, EXISTS, IN, LIKE, SOME
+
+BETWEEN - AND
+
+This is an inclusive range [start, end] given start <= end else SQL prints an empty result set.
+
+SELECT name, year, rankscore
+FROM movies
+WHERE year BETWEEN 1999 AND 2000;
+
+SELECT name, year, rankscore
+FROM movies
+WHERE year >= 1999
+AND year <= 2000;
+
+SELECT name, year, rankscore
+FROM movies
+WHERE rankscore BETWEEN 8 AND 9
+AND year BETWEEN 1999 AND 2000
+ORDER BY year, rankscore DESC;
+
+IN
+
+This is used when we want to select certain rows which matches the criteria by passing a set.
+
+SELECT movie_id, genre
+FROM movies_genres
+WHERE genre IN ('Comedy', 'Documentary', 'Crime');
+
+SELECT movie_id, genre
+FROM movies_genres
+WHERE genre = 'Comedy'
+OR genre = 'Documentary'
+OR genre = 'Crime';
+
+LIKE
+
+To match the characters of a string.
+'%' --> implies zero or more characters.
+'_' --> implles only atmost one character.
+
+If we want to match '%' or '_', then we should use '\' as the escape character '\%' or '\_'.
+
+SELECT name, year, rankscore
+FROM movies
+WHERE name LIKE 'Tis%'
+AND rankscore IS NOT NULL;
++------------------------------------------+------+-----------+
+| name                                     | year | rankscore |
++------------------------------------------+------+-----------+
+| Tis a Gift to Be Simple                  | 1994 |       8.2 |
+| Tis kakomoiras                           | 1963 |       9.5 |
+| Tis the Season                           | 1998 |         9 |
+| Tischlein, deck dich (1956/I)            | 1956 |         6 |
+| Tiscrocn vcela                           | 1983 |       8.5 |
+| Tish                                     | 1942 |         6 |
+| Tishe!                                   | 2002 |       8.7 |
+| Tisserands du pouvoir II: La Rvolte, Les | 1988 |       4.2 |
+| Tistega lepega dne                       | 1962 |       7.9 |
+| Tiszta Amerika                           | 1987 |       5.2 |
++------------------------------------------+------+-----------+
+
+SELECT first_name, last_name
+FROM actors
+WHERE first_name LIKE 'Agn_s';
+
+SELECT first_name, last_name
+FROM actors
+WHERE first_name LIKE 'L%'
+AND first_name NOT LIKE 'Li%';
+
+SELECT name, year
+FROM movies
+WHERE name LIKE '%\_%';
++------------------------------+------+
+| name                         | year |
++------------------------------+------+
+| Hamal_18                     | 2004 |
+| Hamlet_X                     | 2003 |
+| John D. ___ and the Reporter | 1907 |
+| On_Line                      | 2002 |
+| Quest for _____, The         | 1998 |
+| Timebased_Body               | 2000 |
++------------------------------+------+
+
+SELECT name, year
+FROM movies
+WHERE name LIKE '%\%';
++-----------------------+------+
+| name                  | year |
++-----------------------+------+
+| 67%                   | 2001 |
+| Hochzeitsreise zu 50% | 1936 |
+| Na 100%               | 1938 |
+| Neylon 100%           | 1973 |
++-----------------------+------+
+
+SELECT name, year
+FROM movies
+WHERE name LIKE 'Tis_';
++------+------+
+| name | year |
++------+------+
+| Tish | 1942 |
++------+------+
+
+SELECT name, year
+FROM movies
+WHERE name LIKE 'T_s_';
++------+------+
+| name | year |
++------+------+
+| Tcsk | 1963 |
+| Teso | 1998 |
+| Tess | 1979 |
+| Test | 1976 |
+| Test | 2000 |
+| Thse | 1998 |
+| Tish | 1942 |
+| Trst | 1947 |
+| Trst | 1950 |
+| Trst | 1949 |
+| Tusi | 1978 |
+| Tusk | 1980 |
++------+------+
+
+SELECT first_name, last_name
+FROM actors
+WHERE first_name LIKE '_es'
+AND last_name LIKE '%es';
++------------+--------------------+
+| first_name | last_name          |
++------------+--------------------+
+| Les        | Bates              |
+| Les        | Chats Sauvages     |
+| Les        | Chaussettes Noires |
+| Les        | Eaves              |
+| Wes        | Faires             |
+| Les        | Fol Frères         |
+| Les        | Frères Jacques     |
+| Les        | Humphries          |
+| Des        | James              |
+| Les        | James              |
+| Des        | Jones              |
+| Les        | Olvides            |
+| Wes        | Ries               |
+| Wes        | Staples            |
+| Les        | Clodettes          |
++------------+--------------------+
+
+####################################################################################################
+
+Aggregate Functions: COUNT, MIN, MAX, SUM, AVG
+
+Computes a single value on a set of rows and returns the aggregate.
+
+MIN
+
+SELECT MIN(year) FROM movies;
++-----------+
+| MIN(year) |
++-----------+
+|      1888 |
++-----------+
+
+MAX
+
+SELECT MAX(year) FROM movies;
++-----------+
+| MAX(year) |
++-----------+
+|      2008 |
++-----------+
+
+COUNT
+
+SELECT COUNT(*) FROM movies;
++----------+
+| COUNT(*) |
++----------+
+|   388269 |
++----------+
+All rows are counted including NULL values.
+
+SELECT COUNT(year)
+FROM movies
+WHERE year = 2000;
++-------------+
+| COUNT(year) |
++-------------+
+|       11643 |
++-------------+
+
+SELECT COUNT(year)
+FROM movies
+WHERE year IN (2000, 2001, 2002);
++-------------+
+| COUNT(year) |
++-------------+
+|       35389 |
++-------------+
+
+SELECT COUNT(name)
+FROM movies
+WHERE year > 2000;
++-------------+
+| COUNT(name) |
++-------------+
+|       46006 |
++-------------+
+
+SELECT COUNT(rankscore) FROM movies;
++------------------+
+| COUNT(rankscore) |
++------------------+
+|            67245 |
++------------------+
+Counts only NOT NULL values when specified a column name.
+
+SELECT COUNT(1) FROM movies;
++----------+
+| COUNT(1) |
++----------+
+|   388269 |
++----------+
+SQL will add one pseudo column with a value 1 and returns the count of all records.
+
+SELECT COUNT(2) FROM movies;
++----------+
+| COUNT(2) |
++----------+
+|   388269 |
++----------+
+SQL will add one pseudo column with a value 2 and returns the count of all records.
+
+AVG
+
+SELECT AVG(rankscore) FROM movies;
++-------------------+
+| AVG(rankscore)    |
++-------------------+
+| 5.874238979148992 |
++-------------------+
+
+SUM
+
+SELECT SUM(rankscore) FROM movies;
++------------------+
+| SUM(rankscore)   |
++------------------+
+| 395013.200152874 |
++------------------+
+
+####################################################################################################
+
+GROUP BY
+
+Groups the results based on category.
+If we are using GROUP BY then it is mandatory to have any aggregate funtions in the SELECT statement.
+
+SELECT genre, COUNT(genre) genre_count
+FROM movies_genres
+GROUP BY genre
+ORDER BY genre_count;
++-------------+-------------+
+| genre       | genre_count |
++-------------+-------------+
+| Film-Noir   |         410 |
+| War         |        4350 |
+| Mystery     |        4857 |
+| Sci-Fi      |        4908 |
+| Fantasy     |        5081 |
+| Music       |        5552 |
+| Musical     |        6971 |
+| Horror      |        7041 |
+| Adult       |        7349 |
+| Western     |        8357 |
+| Adventure   |        8748 |
+| Thriller    |       10524 |
+| Family      |       11093 |
+| Crime       |       12492 |
+| Romance     |       13627 |
+| Action      |       14436 |
+| Animation   |       17652 |
+| Documentary |       41356 |
+| Comedy      |       56425 |
+| Drama       |       72877 |
+| Short       |       81013 |
++-------------+-------------+
+Here, genre_count is the alias of COUNT(genre).
+
+SELECT rankscore, COUNT(rankscore) rank_count
+FROM movies
+GROUP BY
+rankscore
+ORDER BY rankscore
+LIMIT 10;
++-----------+------------+
+| rankscore | rank_count |
++-----------+------------+
+|      NULL |          0 | --> NULLs are ignored because of COUNT(rankscore)
+|         1 |        146 |
+|       1.1 |         39 |
+|       1.2 |         44 |
+|       1.3 |         49 |
+|       1.4 |         98 |
+|       1.5 |         92 |
+|       1.6 |        104 |
+|       1.7 |        148 |
+|       1.8 |        152 |
++-----------+------------+
+If grouping columns contain NULL values, then all NULL values are grouped together.
+
+SELECT rankscore, COUNT(*) rank_count
+FROM movies
+GROUP BY rankscore
+ORDER BY rankscore
+LIMIT 10;
++-----------+------------+
+| rankscore | rank_count |
++-----------+------------+
+|      NULL |     321024 | --> NULLs are not ignored because of COUNT(*)
+|         1 |        146 |
+|       1.1 |         39 |
+|       1.2 |         44 |
+|       1.3 |         49 |
+|       1.4 |         98 |
+|       1.5 |         92 |
+|       1.6 |        104 |
+|       1.7 |        148 |
+|       1.8 |        152 |
++-----------+------------+
+If grouping columns contain NULL values, then all NULL values are grouped together.
+
+####################################################################################################
+
+HAVING
+
+To specify a condition on groups.
+
+SELECT year, COUNT(year) year_count
+FROM movies
+GROUP BY year
+HAVING year_count > 10000;
++------+------------+
+| year | year_count |
++------+------------+
+| 2002 |      12056 |
+| 2000 |      11643 |
+| 2001 |      11690 |
+| 1999 |      10976 |
+| 2003 |      11890 |
+| 1998 |      10067 |
++------+------------+
+
+Often used along with GROUP BY but not mandatory. HAVING used without GROUP BY is same as WHERE.
+
+SELECT name, year
+FROM movies
+HAVING year > 2006;
++-------------------------------------------+------+
+| name                                      | year |
++-------------------------------------------+------+
+| DragonBall Z                              | 2007 |
+| Harry Potter and the Half-Blood Prince    | 2008 |
+| Harry Potter and the Order of the Phoenix | 2007 |
+| Rapunzel Unbraided                        | 2007 |
+| Spider-Man 3                              | 2007 |
+| Tripoli                                   | 2007 |
+| Untitled Star Trek Prequel                | 2007 |
+| War of the Red Cliff, The                 | 2007 |
++-------------------------------------------+------+
+
+SELECT year, COUNT(year) year_count
+FROM movies
+WHERE rankscore > 9 --> It is applied on individual rows before grouping.
+GROUP BY year
+HAVING year_count >= 50; --> It is applied on groups after grouping.
++------+------------+
+| year | year_count |
++------+------------+
+| 2003 |         87 |
+| 2002 |         77 |
++------+------------+
+Both WHERE and HAVING can be used in a query.
+
+Order of execution:
+1. Get the data FROM a table (movies).
+2. Apply WHERE to filter on individual rows of a column (rankscore).
+3. GROUP BY a column (year) to create groups.
+4. Apply the aggregate function (COUNT(year) year_count).
+5. Apply HAVING to filter the groups (using year_count).
+
+WHERE vs HAVING
+1. WHERE is applied on individual rows while HAVING is applied on groups.
+2. WHERE is applied before grouping, and HAVING is applied after grouping.
+3. WHERE can filter by columns that are not present in SELECT statement (given the columns are present in table).
+   HAVING to filter by columns (without GROUP BY) it should have the columns present in SELECT statement as well.
+
+SELECT movie_id
+FROM movies_genres
+WHERE genre LIKE 'Doc%'
+LIMIT 10;
++----------+
+| movie_id |
++----------+
+|        1 |
+|       32 |
+|       36 |
+|       40 |
+|       46 |
+|       56 |
+|       61 |
+|       64 |
+|       66 |
+|       67 |
++----------+
+Here, movie_id column is selected but the filter criterion is applied on genre column using WHERE.
+And WHERE can filter irrespective of wheather the column is selected or not given the column should be present in table.
+
+SELECT name, year
+FROM movies
+HAVING year > 1990
+AND name LIKE 'T_s_';
++------+------+
+| name | year |
++------+------+
+| Test | 2000 |
+| Teso | 1998 |
+| Thse | 1998 |
++------+------+
+Here, HAVING is applied on year and name columns and it works because name and year are selected.
+
+SELECT name, year, rankscore
+FROM movies
+HAVING year > 1990
+AND name LIKE 'T_s_';
++------+------+-----------+
+| name | year | rankscore |
++------+------+-----------+
+| Test | 2000 |         7 |
+| Teso | 1998 |      NULL |
+| Thse | 1998 |      NULL |
++------+------+-----------+
+Here, HAVING is applied on year and name columns and it works because name and year are selected.
+
+SELECT movie_id
+FROM movies_genres
+HAVING genre LIKE 'DOC%'
+LIMIT 10;
+ERROR 1054 (42S22): Unknown column 'genre' in 'having clause'
+It doesn't work because movie_id is not used in HAVING but it is used in SELECT.
+And genre is used in HAVING but it is not used in SELECT.
+
+####################################################################################################
+
+JOIN
+
+Combine data from multiple tables.
+
+Natural Join: A join where we have the same column-names across two tables.
+
+T1: C1, C2
+T2: C1, C3, C4
+
+SELECT * FROM T1 JOIN T2;
++----+----+----+----+
+| C1 | C2 | C3 | C4 |
++----+----+----+----+
+
+SELECT * FROM T1 JOIN T2 USING (C1);
++----+----+----+----+
+| C1 | C2 | C3 | C4 |
++----+----+----+----+
+
+** Joins can be computationally expensive when we have large tables.
+
+INNER JOIN (or JOIN) --> Refer the notes.
+
+LEFT OUTER JOIN (or LEFT JOIN) --> Refer the notes.
+
+RIGHT OUTER JOIN (or RIGHT JOIN) --> Refer the notes.
+
+FULL OUTER JOIN (or FULL JOIN) --> Refer the notes.
+
+Outer joins fetch NULL for missing counterpart rows.
+
+SELECT *
+FROM movies AS M
+JOIN movies_genres AS MG
+ON M.id = MG.movie_id
+LIMIT 10;
++----+-------------------------------------+------+-----------+----------+-------------+
+| id | name                                | year | rankscore | movie_id | genre       |
++----+-------------------------------------+------+-----------+----------+-------------+
+|  1 | #7 Train: An Immigrant Journey, The | 2000 |      NULL |        1 | Documentary |
+|  1 | #7 Train: An Immigrant Journey, The | 2000 |      NULL |        1 | Short       |
+|  2 | $                                   | 1971 |       6.4 |        2 | Comedy      |
+|  2 | $                                   | 1971 |       6.4 |        2 | Crime       |
+|  5 | $1,000 Reward                       | 1923 |      NULL |        5 | Western     |
+|  6 | $1,000,000 Duck                     | 1971 |         5 |        6 | Comedy      |
+|  6 | $1,000,000 Duck                     | 1971 |         5 |        6 | Family      |
+|  8 | $10,000 Under a Pillow              | 1921 |      NULL |        8 | Animation   |
+|  8 | $10,000 Under a Pillow              | 1921 |      NULL |        8 | Comedy      |
+|  8 | $10,000 Under a Pillow              | 1921 |      NULL |        8 | Short       |
++----+-------------------------------------+------+-----------+----------+-------------+
+
+SELECT M.name, MG.genre, M.year 
+FROM movies AS M
+INNER JOIN movies_genres AS MG
+ON M.id = MG.movie_id
+LIMIT 10;
++-------------------------------------+-------------+------+
+| name                                | genre       | year |
++-------------------------------------+-------------+------+
+| #7 Train: An Immigrant Journey, The | Documentary | 2000 |
+| #7 Train: An Immigrant Journey, The | Short       | 2000 |
+| $                                   | Comedy      | 1971 |
+| $                                   | Crime       | 1971 |
+| $1,000 Reward                       | Western     | 1923 |
+| $1,000,000 Duck                     | Comedy      | 1971 |
+| $1,000,000 Duck                     | Family      | 1971 |
+| $10,000 Under a Pillow              | Animation   | 1921 |
+| $10,000 Under a Pillow              | Comedy      | 1921 |
+| $10,000 Under a Pillow              | Short       | 1921 |
++-------------------------------------+-------------+------+
+
+SELECT M.name movie, M.year year, D.first_name, D.last_name, MG.genre
+FROM movies AS M
+JOIN movies_directors AS MD
+ON M.id = MD.movie_id
+JOIN directors AS D
+ON MD.movie_id = D.id
+JOIN movies_genres AS MG
+ON M.id = MG.movie_id
+JOIN directors_genres AS DG
+ON DG.director_id = D.id
+LIMIT 20;
++------------------------+------+--------------------+-------------+-----------+
+| movie                  | year | first_name         | last_name   | genre     |
++------------------------+------+--------------------+-------------+-----------+
+| $                      | 1971 | Les                | 12 Poissons | Comedy    |
+| $                      | 1971 | Les                | 12 Poissons | Crime     |
+| $1,000 Reward          | 1923 | Khairiya           | A-Mansour   | Western   |
+| $1,000,000 Duck        | 1971 | Ricardo            | A. Solla    | Comedy    |
+| $1,000,000 Duck        | 1971 | Ricardo            | A. Solla    | Family    |
+| $1,000,000 Duck        | 1971 | Ricardo            | A. Solla    | Comedy    |
+| $1,000,000 Duck        | 1971 | Ricardo            | A. Solla    | Family    |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Animation |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Comedy    |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Short     |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Animation |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Comedy    |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Short     |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Animation |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Comedy    |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Short     |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Animation |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Comedy    |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Short     |
+| $10,000 Under a Pillow | 1921 | Kodanda Rami Reddy | A.          | Animation |
++------------------------+------+--------------------+-------------+-----------+
+
+SELECT DISTINCT M.name movie, M.year year, D.first_name, D.last_name, MG.genre
+FROM movies AS M
+JOIN movies_directors AS MD
+ON M.id = MD.movie_id
+JOIN directors AS D
+ON MD.movie_id = D.id
+JOIN movies_genres AS MG
+ON M.id = MG.movie_id
+JOIN directors_genres AS DG
+ON DG.director_id = D.id
+ORDER BY year
+LIMIT 20;
++----------------------------------+------+--------------+-----------+-------------+
+| movie                            | year | first_name   | last_name | genre       |
++----------------------------------+------+--------------+-----------+-------------+
+| Clown et ses chiens, Le          | 1892 | Gerard       | Rekers    | Animation   |
+| Clown et ses chiens, Le          | 1892 | Gerard       | Rekers    | Short       |
+| Blacksmith Scene                 | 1893 | Stacy        | Keach     | Short       |
+| Carmencita                       | 1894 | Marion       | Moreau    | Short       |
+| Carmencita                       | 1894 | Marion       | Moreau    | Documentary |
+| Barque sortant du port           | 1895 | Austin (I)   | Green     | Short       |
+| Charcuterie mcanique, La         | 1895 | Arild Østin  | Ommundsen | Short       |
+| Charcuterie mcanique, La         | 1895 | Arild Østin  | Ommundsen | Comedy      |
+| Bocal aux poissons-rouges        | 1895 | Jerzy        | Kowynia   | Documentary |
+| Bocal aux poissons-rouges        | 1895 | Jerzy        | Kowynia   | Short       |
+| Archiv Skladanowsky              | 1895 | Raymond      | Devos     | Short       |
+| Autour d'une cabine              | 1895 | Martha       | Fiennes   | Short       |
+| Charcuterie mcanique, La         | 1895 | Arild Østin  | Ommundsen | Sci-Fi      |
+| Arroseur arros, L'               | 1895 | Alon         | Dori      | Comedy      |
+| Arrive d'un train  la Ciotat, L' | 1895 | Niva         | Dorell    | Short       |
+| Arrive d'un train  la Ciotat, L' | 1895 | Niva         | Dorell    | Documentary |
+| Course en sac                    | 1895 | Ulrich       | Seidl     | Documentary |
+| Autour d'une cabine              | 1895 | Martha       | Fiennes   | Animation   |
+| Barque sortant du port           | 1895 | Austin (I)   | Green     | Documentary |
+| Arroseur arros, L'               | 1895 | Alon         | Dori      | Short       |
++----------------------------------+------+--------------+-----------+-------------+
+
+Q) Directors who got movie rating more than 9.5, sort them in descending order by rating and year.
+
+SELECT D.first_name, D.last_name, M.name movie, M.year, M.rankscore
+FROM directors AS D
+JOIN movies_directors AS MD
+ON D.id = MD.director_id
+JOIN movies AS M
+ON MD.movie_id = M.id
+WHERE ROUND(M.rankscore, 1) > 9.5
+ORDER BY M.year DESC, M.rankscore DESC
+LIMIT 15;
++--------------+------------+--------------------------------------------+------+-----------+
+| first_name   | last_name  | movie                                      | year | rankscore |
++--------------+------------+--------------------------------------------+------+-----------+
+| Gregg        | Zehentner  | Dawn of the Friend                         | 2004 |       9.9 |
+| Scott        | Barkan     | Dawn of the Friend                         | 2004 |       9.9 |
+| Anthony L.   | MacFarland | Dimensia Minds Trilogy: The Reds           | 2004 |       9.8 |
+| Bryan        | Harley     | Magical Time Traveling Thugtastic Jug, The | 2004 |       9.8 |
+| Simon        | Brasse     | Sanhedrin                                  | 2004 |       9.7 |
+| Jim          | Cliffe     | Tomorrow's Memoir                          | 2004 |       9.7 |
+| Courtney     | Davis      | Milton Is a Shitbag                        | 2004 |       9.7 |
+| Sean (II)    | Ellis      | Cashback                                   | 2004 |       9.7 |
+| Michèle      | Cournoyer  | Accordon                                   | 2004 |       9.7 |
+| Michael      | Sladek     | Devils Are Dreaming                        | 2004 |       9.7 |
+| Gérald       | L'Ecuyer   | Gerald L'Ecuyer: A Filmmaker's Journey     | 2004 |       9.6 |
+| Tetsuya      | Nakashima  | Shimotsuma monogatari                      | 2004 |       9.6 |
+| Rob (III)    | Moretti    | Crutch                                     | 2004 |       9.6 |
+| Thomas (III) | Phillips   | Earl's Your Uncle                          | 2004 |       9.6 |
+| Michael      | Mustizer   | Two Days with Juliet                       | 2004 |       9.6 |
++--------------+------------+--------------------------------------------+------+-----------+
+
+Q) Directors who directed movies greater than equal to 200.
+
+SELECT D.first_name, D.last_name, COUNT(M.name) no_of_movies
+FROM directors AS D
+JOIN movies_directors AS MD
+ON D.id = MD.director_id
+JOIN movies AS M
+ON M.id = MD.movie_id
+GROUP BY D.first_name, D.last_name
+HAVING no_of_movies >= 200
+ORDER BY no_of_movies DESC;
++----------------------------+-----------+--------------+
+| first_name                 | last_name | no_of_movies |
++----------------------------+-----------+--------------+
+| Dave                       | Fleischer |          616 |
+| Georges                    | Méliès    |          554 |
+| D.W.                       | Griffith  |          530 |
+| Gilbert M. 'Broncho Billy' | Anderson  |          360 |
+| Louis                      | Feuillade |          345 |
+| Mack                       | Sennett   |          330 |
+| Seymour                    | Kneitel   |          320 |
+| Friz                       | Freleng   |          316 |
+| Bud                        | Fisher    |          312 |
+| Chuck (I)                  | Jones     |          293 |
+| Jules                      | White     |          288 |
+| Phillips                   | Smalley   |          280 |
+| Allan                      | Dwan      |          277 |
+| Walter                     | Lantz     |          276 |
+| Sam (I)                    | Newfield  |          269 |
+| Allen                      | Curtis    |          266 |
+| William                    | Beaudine  |          254 |
+| Al                         | Christie  |          253 |
+| Alice                      | Guy       |          238 |
+| William (I)                | Hanna     |          227 |
+| Joseph                     | Barbera   |          223 |
+| Mannie                     | Davis     |          220 |
+| Theo                       | Frenkel   |          212 |
+| Wui                        | Ng        |          211 |
+| Robert                     | McKimson  |          207 |
+| William (I)                | Watson    |          203 |
++----------------------------+-----------+--------------+
+
+Q) Number of movies based on genre
+
+SELECT MG.genre, COUNT(M.name) no_of_movies
+FROM movies AS M
+JOIN movies_genres AS MG
+ON M.id =  MG.movie_id
+GROUP BY MG.genre
+ORDER BY no_of_movies DESC;
++-------------+--------------+
+| genre       | no_of_movies |
++-------------+--------------+
+| Short       |        81013 |
+| Drama       |        72877 |
+| Comedy      |        56425 |
+| Documentary |        41356 |
+| Animation   |        17652 |
+| Action      |        14436 |
+| Romance     |        13627 |
+| Crime       |        12492 |
+| Family      |        11093 |
+| Thriller    |        10524 |
+| Adventure   |         8748 |
+| Western     |         8357 |
+| Adult       |         7349 |
+| Horror      |         7041 |
+| Musical     |         6971 |
+| Music       |         5552 |
+| Fantasy     |         5081 |
+| Sci-Fi      |         4908 |
+| Mystery     |         4857 |
+| War         |         4350 |
+| Film-Noir   |          410 |
++-------------+--------------+
+
+Q) Documentaries released in each year which are more than 1500.
+
+SELECT M.year, COUNT(DG.director_id) no_of_directors
+FROM directors_genres AS DG
+JOIN movies_directors AS MD
+ON DG.director_id = MD.director_id
+JOIN movies AS M
+ON M.id = MD.movie_id
+WHERE DG.genre = 'Documentary'
+GROUP BY M.year
+HAVING no_of_directors >= 1500
+ORDER BY M.year DESC;
++------+-----------------+
+| year | no_of_directors |
++------+-----------------+
+| 2004 |            2156 |
+| 2003 |            3165 |
+| 2002 |            3130 |
+| 2001 |            2800 |
+| 2000 |            2813 |
+| 1999 |            2559 |
+| 1998 |            2372 |
+| 1997 |            2183 |
+| 1996 |            1941 |
+| 1995 |            1883 |
+| 1994 |            1740 |
+| 1992 |            1579 |
+| 1991 |            1502 |
++------+-----------------+
+
+Q) Female cast in each movie from the year 2000 greater than or equal to 10.
+
+SELECT M.name movie, M.year, COUNT(A.gender) females
+FROM movies AS M
+JOIN roles AS R
+ON M.id = R.movie_id
+JOIN actors AS A
+ON A.id = R.actor_id
+WHERE M.year >= 2000
+AND A.gender = 'F'
+GROUP BY movie, M.year
+HAVING females >= 10
+ORDER BY M.year DESC
+LIMIT 25;
++---------------------------------------------------------+------+---------+
+| movie                                                   | year | females |
++---------------------------------------------------------+------+---------+
+| Ring 2, The                                             | 2005 |      14 |
+| Bad Blood                                               | 2005 |      10 |
+| Take Out                                                | 2005 |      12 |
+| Junebug                                                 | 2005 |      10 |
+| At Last                                                 | 2005 |      14 |
+| Chasing Ghosts                                          | 2005 |      10 |
+| Hitch                                                   | 2005 |      16 |
+| Serenity                                                | 2005 |      11 |
+| Sin City                                                | 2005 |      16 |
+| Wedding Crashers, The                                   | 2005 |      14 |
+| Star Wars: Episode III - Revenge of the Sith            | 2005 |      29 |
+| Cursed                                                  | 2005 |      10 |
+| Devil's Rejects, The                                    | 2005 |      11 |
+| Jack, the Last Victim                                   | 2005 |      12 |
+| End of the Spear                                        | 2005 |      20 |
+| Do Not Disturb                                          | 2005 |      13 |
+| I Am Vengeance                                          | 2005 |      13 |
+| Love of Time, A                                         | 2005 |      16 |
+| Bee Season                                              | 2005 |      15 |
+| Popstar                                                 | 2005 |      10 |
+| Untitled Rob Reiner Project                             | 2005 |      11 |
+| Man of the House                                        | 2005 |      13 |
+| Genre humain - 2: Le bonheur c'est mieux que la vie, Le | 2005 |      14 |
+| Kicking & Screaming                                     | 2005 |      16 |
+| Living the Dream                                        | 2005 |      28 |
++---------------------------------------------------------+------+---------+
+
+Q) Male cast in each movie from the year 2000 greater than or equal to 10.
+
+SELECT M.name movie, M.year, COUNT(A.gender) males
+FROM movies AS M
+JOIN roles AS R
+ON M.id = R.movie_id
+JOIN actors AS A
+ON A.id = R.actor_id
+WHERE M.year >= 2000
+AND A.gender = 'M'
+GROUP BY movie, M.year
+HAVING males >= 10
+ORDER BY M.year DESC
+LIMIT 25;
++---------------------------------------------------------------+------+-------+
+| movie                                                         | year | males |
++---------------------------------------------------------------+------+-------+
+| Zhmurki                                                       | 2006 |    10 |
+| 10th & Wolf                                                   | 2006 |    27 |
+| Brothers Grimm, The                                           | 2005 |    14 |
+| "Poseidon Adventure, The" (2005/II)                           | 2005 |    12 |
+| Mostly Unfabulous Social Life of Ethan Green, The             | 2005 |    10 |
+| Interpreter, The                                              | 2005 |    16 |
+| Do Not Disturb                                                | 2005 |    22 |
+| In Memory of My Father                                        | 2005 |    21 |
+| Longest Yard, The                                             | 2005 |    29 |
+| Looking for Angelina                                          | 2005 |    14 |
+| Egyetleneim                                                   | 2005 |    13 |
+| Complete Guide to Guys                                        | 2005 |    14 |
+| Venice Underground                                            | 2005 |    17 |
+| "Amrica"                                                      | 2005 |    14 |
+| Magic 7, The                                                  | 2005 |    10 |
+| New World, The                                                | 2005 |    16 |
+| Tom 51                                                        | 2005 |    21 |
+| Beauty Shop                                                   | 2005 |    15 |
+| Walk the Line                                                 | 2005 |    31 |
+| Cursed                                                        | 2005 |    20 |
+| Jack, the Last Victim                                         | 2005 |    12 |
+| Irish Vampire Goes West, The                                  | 2005 |    10 |
+| Elizabethtown                                                 | 2005 |    45 |
+| Scanner Darkly, A                                             | 2005 |    10 |
+| Chronicles of Narnia: The Lion, the Witch & the Wardrobe, The | 2005 |    11 |
++---------------------------------------------------------------+------+-------+
+
+SELECT A.first_name, A.last_name, A.gender
+FROM actors A
+JOIN roles R
+ON A.id = R.actor_id
+JOIN movies M
+ON M.id = R.movie_id
+WHERE M.name = 'Officer 444';
++------------+-----------+--------+
+| first_name | last_name | gender |
++------------+-----------+--------+
+| Frank (I)  | Baker     | M      |
+| Arthur     | Beckel    | M      |
+| Al         | Ferguson  | M      |
+| Francis    | Ford      | M      |
+| Philip     | Ford      | M      |
+| Harry      | McDonald  | M      |
+| Lafe       | McKee     | M      |
+| Jack       | Mower     | M      |
+| August     | Vollmer   | M      |
+| Ben F.     | Wilson    | M      |
+| Neva       | Gerber    | F      |
+| Margaret   | Mann      | F      |
+| Ruth       | Royce     | F      |
++------------+-----------+--------+
+
+SELECT A.first_name, A.last_name, A.gender
+FROM actors A
+JOIN roles R
+ON A.id = R.actor_id
+JOIN movies M
+ON M.id = R.movie_id
+AND M.name = 'Officer 444';
++------------+-----------+--------+
+| first_name | last_name | gender |
++------------+-----------+--------+
+| Frank (I)  | Baker     | M      |
+| Arthur     | Beckel    | M      |
+| Al         | Ferguson  | M      |
+| Francis    | Ford      | M      |
+| Philip     | Ford      | M      |
+| Harry      | McDonald  | M      |
+| Lafe       | McKee     | M      |
+| Jack       | Mower     | M      |
+| August     | Vollmer   | M      |
+| Ben F.     | Wilson    | M      |
+| Neva       | Gerber    | F      |
+| Margaret   | Mann      | F      |
+| Ruth       | Royce     | F      |
++------------+-----------+--------+
+Same example using 'AND' along with JOIN to filter rows.
+
+####################################################################################################
+
+Sub / Inner / Nester Queries
+
+First the inner query is executed and then the outer query is executed using the output values from the inner query.
+
+Syntax
+
+SELECT column1 [, column2, ...]
+FROM table1 [, table2, ...]
+WHERE column OPERATOR (
+    SELECT column1 [, column2, ...]
+    FROM table1 [, table2, ...]
+    WHERE column OPERATOR (
+        ...
+    )
+);
+
+Operators: IN, NOT IN, EXISTS, NOT EXISTS, ANY, ALL, and Comparison Operators.
+
+IN: Checks the belongingness of a record in the set.
+NOT IN: Checks the non-belongingness of a record in the set.
+EXISTS: To test the existence of any record in a subquery.
+        Returns TRUE if the subquery returns one or many records.
+NOT EXISTS: To test the non-existence of any record in a subquery.
+            Returns TRUE if the subquery returns nothing.
+ANY: Returns TRUE if any of the subquery records meet the condition.
+ALL: Returns TRUE if all the subquery records meet the condition.
+
+IN
+
+SELECT first_name, last_name, gender
+FROM actors 
+WHERE id IN (
+    SELECT actor_id
+    FROM roles 
+    WHERE movie_id IN (
+        SELECT id
+        FROM movies 
+        WHERE name = "Don't Panic Chaps!"
+    )
+);
++------------+-----------+--------+
+| first_name | last_name | gender |
++------------+-----------+--------+
+| Terence    | Alexander | M      |
+| George (I) | Cole      | M      |
+| Thomas (I) | Foulkes   | M      |
+| Harry      | Fowler    | M      |
+| Percy      | Herbert   | M      |
+| Gertan     | Klauber   | M      |
+| George     | Murcell   | M      |
+| Dennis (I) | Price     | M      |
+| Thorley    | Walters   | M      |
+| Nadja      | Regin     | F      |
++------------+-----------+--------+
+
+EXISTS
+
+SELECT A.first_name, A.last_name, A.gender
+FROM actors A
+WHERE EXISTS (
+    SELECT R.actor_id
+    FROM roles R
+    WHERE A.id = R.actor_id
+    And EXISTS (
+        SELECT M.id
+        FROM movies M
+        WHERE M.id = R.movie_id
+        AND M.name = "Don't Panic Chaps!"
+    )
+);
++------------+-----------+--------+
+| first_name | last_name | gender |
++------------+-----------+--------+
+| Terence    | Alexander | M      |
+| George (I) | Cole      | M      |
+| Thomas (I) | Foulkes   | M      |
+| Harry      | Fowler    | M      |
+| Percy      | Herbert   | M      |
+| Gertan     | Klauber   | M      |
+| George     | Murcell   | M      |
+| Dennis (I) | Price     | M      |
+| Thorley    | Walters   | M      |
+| Nadja      | Regin     | F      |
++------------+-----------+--------+
+
+NOT IN
+
+SELECT first_name, last_name, gender
+FROM actors 
+WHERE id NOT IN (
+    SELECT actor_id
+    FROM roles 
+    WHERE movie_id NOT IN (
+        SELECT id
+        FROM movies 
+        WHERE name = "Don't Panic Chaps!"
+    )
+);
++------------+-----------+--------+
+| first_name | last_name | gender |
++------------+-----------+--------+
+| Thomas (I) | Foulkes   | M      |
++------------+-----------+--------+
+
+NOT EXISTS
+
+SELECT A.first_name, A.last_name, A.gender
+FROM actors A
+WHERE NOT EXISTS (
+    SELECT R.actor_id
+    FROM roles R
+    WHERE R.actor_id = A.id
+    AND NOT EXISTS (
+        SELECT M.id
+        FROM movies M
+        WHERE M.id = R.movie_id
+        AND M.name = "Don't Panic Chaps!"
+    )
+);
++------------+-----------+--------+
+| first_name | last_name | gender |
++------------+-----------+--------+
+| Thomas (I) | Foulkes   | M      |
++------------+-----------+--------+
+
+ANY
+
+SELECT M.year, COUNT(M.rankscore) count_rankscore_9_5
+FROM movies M
+WHERE rankscore >= ANY (
+    SELECT rankscore
+    FROM movies
+    WHERE ROUND(rankscore, 1) = 9.5
+)
+GROUP BY M.year
+HAVING count_rankscore_9_5 >= 5
+ORDER BY M.year DESC, count_rankscore_9_5 DESC;
++------+---------------------+
+| year | count_rankscore_9_5 |
++------+---------------------+
+| 2004 |                  22 |
+| 2003 |                  33 |
+| 2002 |                  21 |
+| 2001 |                  12 |
+| 2000 |                  13 |
+| 1999 |                  15 |
+| 1998 |                   7 |
+| 1997 |                  12 |
+| 1996 |                  13 |
+| 1995 |                   8 |
+| 1994 |                   8 |
+| 1992 |                   5 |
+| 1990 |                   5 |
+| 1989 |                   5 |
+| 1987 |                   7 |
+| 1985 |                   5 |
+| 1984 |                   8 |
+| 1982 |                  10 |
+| 1981 |                   6 |
+| 1979 |                  10 |
+| 1976 |                   6 |
+| 1975 |                   8 |
+| 1973 |                   9 |
+| 1969 |                   7 |
+| 1965 |                   7 |
+| 1964 |                   8 |
+| 1934 |                   6 |
++------+---------------------+
+
+ALL
+
+SELECT M.year, COUNT(M.name) movies_count
+FROM movies M
+WHERE rankscore = ALL (
+    SELECT rankscore
+    FROM movies
+    WHERE ROUND(rankscore, 1) = 9.7
+)
+GROUP BY M.year
+HAVING movies_count > 2
+ORDER BY M.year DESC, movies_count DESC;
++------+--------------+
+| year | movies_count |
++------+--------------+
+| 2004 |            6 |
+| 2003 |            8 |
+| 2001 |            4 |
+| 1998 |            3 |
+| 1995 |            3 |
+| 1982 |            3 |
+| 1973 |            3 |
++------+--------------+
+
+SELECT M.year, COUNT(M.name) movies_count
+FROM movies M
+WHERE ROUND(rankscore, 1) = 9.7
+GROUP BY M.year
+HAVING movies_count > 2
+ORDER BY M.year DESC, movies_count DESC;
++------+--------------+
+| year | movies_count |
++------+--------------+
+| 2004 |            6 |
+| 2003 |            8 |
+| 2001 |            4 |
+| 1998 |            3 |
+| 1995 |            3 |
+| 1982 |            3 |
+| 1973 |            3 |
++------+--------------+
+This is without using nested query.
+
+SELECT *
+FROM movies
+WHERE year >= 2000
+AND rankscore >= ALL (
+    SELECT rankscore
+    FROM movies
+    WHERE rankscore IS NOT NULL
+)
+ORDER BY year DESC;
++--------+------------------------+------+-----------+
+| id     | name                   | year | rankscore |
++--------+------------------------+------+-----------+
+|  79678 | Dawn of the Friend     | 2004 |       9.9 |
+| 264084 | Prince Solitaire       | 2003 |       9.9 |
+| 363633 | Whirlpool, The         | 2003 |       9.9 |
+|  41537 | Blow Job               | 2002 |       9.9 |
+|  65522 | Clearing, The          | 2001 |       9.9 |
+| 374517 | Zenith                 | 2001 |       9.9 |
+| 368865 | Wrestling with Shadows | 2000 |       9.9 |
++--------+------------------------+------+-----------+
+
+SELECT M.name, M.year
+FROM movies M
+WHERE M.year BETWEEN 2003 AND 2005
+AND M.id IN (
+    SELECT R.movie_id
+    FROM roles R
+    WHERE R.movie_id = M.id
+    AND R.actor_id IN (
+        SELECT A.id
+        FROM actors A
+        WHERE A.first_name = "Tom"
+        AND A.last_name = "Hanks"
+    )
+)
+ORDER BY M.year DESC;
++--------------------------------------------------------------------------+------+
+| name                                                                     | year |
++--------------------------------------------------------------------------+------+
+| Cold Case, A                                                             | 2005 |
+| 101 Biggest Celebrity Oops                                               | 2004 |
+| 76th Annual Academy Awards, The                                          | 2004 |
+| Geschichte des erotischen Films, Die                                     | 2004 |
+| Ladykillers, The                                                         | 2004 |
+| Polar Express, The                                                       | 2004 |
+| Terminal, The                                                            | 2004 |
+| World War II Memorial Dedication                                         | 2004 |
+| 'Catch Me If You Can': Behind the Camera                                 | 2003 |
+| 75th Annual Academy Awards, The                                          | 2003 |
+| Concert for George, The                                                  | 2003 |
+| Hollywood Celebrates Denzel Washington: An American Cinematheque Tribute | 2003 |
+| Horatio's Drive: America's First Road Trip                               | 2003 |
+| Intimate Portrait: Penny Marshall                                        | 2003 |
+| People Like Us: Making 'Philadelphia'                                    | 2003 |
+| Rebels of Oakland: The A's, the Raiders, the '70s                        | 2003 |
++--------------------------------------------------------------------------+------+
+
+####################################################################################################
+
+SQL commands are categorized into four categories.
+
+---------------------------------
+1. DDL - Data Definition Language
+---------------------------------
+
+SQL commands that can used to define the database schema.
+DDL is a set of SQL commands used to create, modify and delete database structures but not the data.
+These commands are generally not used by normal users who access the database via an application.
+DDL includes CREATE, ALTER, DROP, TRUNCATE, COMMENT, RENAME commands.
+
+CREATE: This command is used to create the database or its objects.
+        Objects such as - table, index, function, view, store procedure and trigger.
+
+CREATE TABLE language (
+    movie_id INT,
+    lang VARCHAR(50) NOT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies(id)
+);
+Query OK, 0 rows affected (0.03 sec)
+
+DESCRIBE language;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| movie_id | int         | YES  | MUL | NULL    |       |
+| lang     | varchar(50) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+
+INSERT INTO
+language (movie_id, lang)
+VALUES
+(412322, 'English'),
+(412323, 'English'),
+(412324, 'English');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+SELECT * FROM language;
++----------+---------+
+| movie_id | lang    |
++----------+---------+
+|   412322 | English |
+|   412323 | English |
+|   412324 | English |
++----------+---------+
+
+SQL Constraints: Specifies the rules for the data in a table.
+                 Ensures reliability and accuracy.
+                 If there is any violation between constraint and data action, the action is aborted.
+
+NOT NULL: Ensures that a column cannot have a NULL value.
+UNIQUE: Ensures that all values in a column are different.
+PRIMARY KEY: A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table.
+FOREIGN KEY: Prevents actions that would destroy links between tables.
+CHECK: Ensures that the values in a column satisfies a specific condition.
+DEFAULT: Sets a default value for a column if no value is specified.
+CREATE INDEX: Used to create and retrieve data from the database very quickly.
+              Imagine the Index in books. The Index help sspeed up the search in a book.
+
+ALTER: This command is used to ADD, MODIFY and DELETE columns in an existing table.
+       This is also used to add and drop various constraints on in existing table.
+
+ALTER TABLE language
+ADD country VARCHAR(50) NOT NULL;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+DESCRIBE language;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| movie_id | int         | YES  | MUL | NULL    |       |
+| lang     | varchar(50) | NO   |     | NULL    |       |
+| country  | varchar(50) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+New column country is added to the language table.
+
+SELECT * FROM language;
++----------+---------+---------+
+| movie_id | lang    | country |
++----------+---------+---------+
+|   412322 | English |         |
+|   412323 | English |         |
+|   412324 | English |         |
++----------+---------+---------+
+
+ALTER TABLE language
+MODIFY country VARCHAR(60) NOT NULL DEFAULT 'USA';
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+DESCRIBE language;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| movie_id | int         | YES  | MUL | NULL    |       |
+| lang     | varchar(50) | NO   |     | NULL    |       |
+| country  | varchar(60) | NO   |     | USA     |       |
++----------+-------------+------+-----+---------+-------+
+The country column is now modifed with a new constraint in language table.
+
+INSERT INTO
+language (movie_id, lang)
+VALUES (1, 'Hindi');
+Query OK, 1 row affected (0.01 sec)
+
+SELECT * FROM language;
++----------+---------+---------+
+| movie_id | lang    | country |
++----------+---------+---------+
+|   412322 | English |         |
+|   412323 | English |         |
+|   412324 | English |         |
+|        1 | Hindi   | USA     |
++----------+---------+---------+
+
+ALTER TABLE language
+DROP country;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+DESCRIBE language;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| movie_id | int         | YES  | MUL | NULL    |       |
+| lang     | varchar(50) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+The country column is now dropped from language table.
+
+SELECT * FROM language;
++----------+---------+
+| movie_id | lang    |
++----------+---------+
+|   412322 | English |
+|   412323 | English |
+|   412324 | English |
+|        1 | Hindi   |
++----------+---------+
+The country column is not displayed as the column is deleted from language table.
+
+DROP: This command is used to delete the objects (table, index, etc.) from the database.
+
+DROP TABLE language;
+Query OK, 0 rows affected (0.01 sec) --> language table is deleted from the database forever.
+
+DROP DATABASE <database-name>; Deletes the whole database.
+
+TRUNCATE: This is used to remove all records from a table, including all spaces allocated for the records are removed.
+          Table will not be deleted, only data of the table will be deleted.
+
+TRUNCATE TABLE language; --> I have recreated the language table and added records and truncated the table.
+Query OK, 0 rows affected (0.04 sec)
+
+DESCRIBE language;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| movie_id | int         | YES  | MUL | NULL    |       |
+| lang     | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+All the records are deleted, but language table is not deleted from the database.
+
+COMMENT: This is used to add comments to the data dictionary.
+
+RENAME: This is used to rename an object (table, index, etc.) existing in the database.
+
+Difference between DELETE, TRUNCATE and DROP commands.
+
+DELETE: It is a DML command that is used to remove the data from a table.
+        It can be used in conjunction with WHERE to delete only the rows meeting the specified condition.
+        It can behave like TRUNCATE, when no condition is used specified in WHERE clause.
+
+TRUNCATE: It is a DDL command which is used to remove all the rows from a table.
+          However, it does not delete the table.
+
+DROP: It is also DDL command. It is used to remove the data as well as the table from the database.
+
+----------------------------
+2. DQL - Data Query Language
+----------------------------
+
+DQL statements are used to perform queries on the data within schema objects.
+It is a component of SQL statements that allows getting data from the database and imposing order upon it.
+It includes the SELECT statement.
+
+SELECT: It is used to retrieve the data from the database.
+
+-----------------------------------
+3. DML - Data Manipulation Language
+-----------------------------------
+
+The SQL commands that deal with the manipulation of data present in the database belong to DML category.
+DML commands effect only one table. 
+DML includes INSERT, UPDATE, DELETE, LOCK, CALL, EXPLAIN PLAN commands.
+
+INSERT: It is used to insert data into a table. Data can be inserted using along with sub-queries also.
+
+INSERT INTO
+movies (id, name, year, rankscore) 
+VALUES
+(412321, 'Thor', 2011, 7);
+Query OK, 1 row affected (0.00 sec)
+
+SELECT *
+FROM movies
+WHERE id = 412321;
++--------+------+------+-----------+
+| id     | name | year | rankscore |
++--------+------+------+-----------+
+| 412321 | Thor | 2011 |         7 |
++--------+------+------+-----------+
+
+INSERT INTO
+movies (id, name, year, rankscore)
+VALUES
+(412322, 'Iron Man', 2008, 7.8),
+(412323, 'Iron Man 2', 2010, 7),
+(412324, 'Iron Man 3', 2012, 8);
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+SELECT *
+FROM movies
+WHERE id IN (412322, 412323, 412324);
++--------+------------+------+-----------+
+| id     | name       | year | rankscore |
++--------+------------+------+-----------+
+| 412322 | Iron Man   | 2008 |       7.8 |
+| 412323 | Iron Man 2 | 2010 |         7 |
+| 412324 | Iron Man 3 | 2012 |         8 |
++--------+------------+------+-----------+
+
+UPDATE: It is used to update the existing data within a table. Data can be updated using along with sub-queries also.
+
+UPDATE movies
+SET rankscore = 9, year = 2008
+WHERE id = 412321;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+SELECT *
+FROM movies
+WHERE id = 412321;
++--------+------+------+-----------+
+| id     | name | year | rankscore |
++--------+------+------+-----------+
+| 412321 | Thor | 2008 |         9 |
++--------+------+------+-----------+
+Updated multiple columns --> year, rankscore for a row 412321.
+
+UPDATE movies
+SET rankscore = 9.5
+WHERE id IN (412322, 412323, 412324);
+Query OK, 3 rows affected (0.00 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+SELECT *
+FROM movies
+WHERE id IN (412322, 412323, 412324);
++--------+------------+------+-----------+
+| id     | name       | year | rankscore |
++--------+------------+------+-----------+
+| 412322 | Iron Man   | 2008 |       9.5 |
+| 412323 | Iron Man 2 | 2010 |       9.5 |
+| 412324 | Iron Man 3 | 2012 |       9.5 |
++--------+------------+------+-----------+
+Updated multiple rows --> 412322, 412323, 412324 for a column rankscore.
+
+DELETE: It is used to delete the records from a database table.
+
+DELETE FROM movies
+WHERE id = 412321;
+Query OK, 1 row affected (0.01 sec)
+
+SELECT *
+FROM movies
+WHERE id = 412321;
+Empty set (0.00 sec)
+
+To delete all the rows in a table, we can use DELETE FROM <table-name>;
+
+LOCK: Table control concurrency.
+
+CALL: Call a PL/SQL or Java subprogram.
+
+EXPLAIN PLAN: It describes the access path to data.
+
+------------------------------
+4. DCL - Data Control Language
+------------------------------
+
+DCL are set of commands only for database admins to maintain the database.
+It includes GRANT, and REVOKE commands.
+
+GRANT: This command is used to allow specified users to perform specified tasks.
+
+REVOKE: This command is used to cancel previously granted or denied permissions.
+
+-------------------------------------
+5. TCL - Transaction Control Language
+-------------------------------------
+
+In PostgreSQL, executing DCL is transactional, and can be rolled back.
+
+Transaction: Any change in the database.
+
+COMMIT: Commits a Transaction.
+
+ROLLBACK: Rollbacks a transaction in case of any error occurs.
+
+####################################################################################################
