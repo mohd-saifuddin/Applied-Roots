@@ -1,0 +1,11 @@
+State,Element,class
+A,P,0
+B,Q,1
+C,R,2
+A,P,0
+A,P,1
+B,Q,2
+A,P,0
+A,P,1
+C,R,1
+C,R,0
