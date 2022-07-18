@@ -17,6 +17,9 @@ glove_vectors
 preprocessed_data.csv
 resources.csv
 train_data.csv
+*.zip
+*.7z
+
 
 # Directories
 .ipynb_checkpoints
