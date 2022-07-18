@@ -19,7 +19,8 @@ resources.csv
 train_data.csv
 *.zip
 *.7z
-
+training_text
+training_variants
 
 # Directories
 .ipynb_checkpoints
