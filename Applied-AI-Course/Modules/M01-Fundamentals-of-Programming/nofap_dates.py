@@ -45,7 +45,7 @@ class NoFapDates(object):
         """
         with open(file='nofap_dates.txt', mode='w') as nf_date_file:
             nf_date_file.writelines(self.get_dates())
-        print('Dates are published!')
+        print("Dates are published!")
         return None
 
 
