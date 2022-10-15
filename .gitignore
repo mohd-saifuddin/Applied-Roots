@@ -21,6 +21,7 @@ train_data.csv
 *.7z
 training_text
 training_variants
+lenet-architecture-a-complete-guide.ipynb
 
 # Directories
 .ipynb_checkpoints
