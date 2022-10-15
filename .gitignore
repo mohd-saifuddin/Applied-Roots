@@ -22,6 +22,8 @@ train_data.csv
 training_text
 training_variants
 lenet-architecture-a-complete-guide.ipynb
+documents.rar
+*pkl
 
 # Directories
 .ipynb_checkpoints
@@ -32,3 +34,12 @@ Applied-AI-Course/Modules/M06-ML-Case-Studies/03-Facebook-Friend-Recommendation/
 Applied-AI-Course/Assignments/A17-Facebook-Friend-Recommendation/data/
 Applied-AI-Course/Modules/M06-ML-Case-Studies/06-Microsoft-Malware-Detection/data/
 Applied-AI-Course/Assignments/A16-Microsoft-Malware-Detection/data/
+Applied-AI-Course/Assignments/A21-Document-Classification-CNN/documents
+Applied-AI-Course/Assignments/A21-Document-Classification-CNN/1-no_emails_documents
+Applied-AI-Course/Assignments/A21-Document-Classification-CNN/2-no_subject_documents
+Applied-AI-Course/Assignments/A21-Document-Classification-CNN/3-no_from_write_to_documents
+Applied-AI-Course/Assignments/A21-Document-Classification-CNN/4-no_tags_brackets_documents
+Applied-AI-Course/Assignments/A21-Document-Classification-CNN/5-no_whitespace_colon_documents
+Applied-AI-Course/Assignments/A21-Document-Classification-CNN/6-chunked_documents
+
+
