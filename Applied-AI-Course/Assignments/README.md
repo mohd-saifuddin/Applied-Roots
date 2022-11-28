@@ -6,7 +6,7 @@
 | 04 | Exploratory Data Analysis on Haberman Dataset | NA | [here](https://drive.google.com/drive/folders/1X2l6Dbec_88EuN2B6USCjOHNb5GLk6N2) |
 | 05 | TFIDF Vectorizer | [video](https://youtu.be/Djd7pq8PCzs) | [here](https://drive.google.com/drive/folders/1KPbov9Acv9bNEJQaLEICKCunn-CfrDn6) |
 | 06 | RandomSearchCV with K-fold Cross Validation on KNN | [video 1](https://youtu.be/9p7MPDjp_2U) <br> [video 2](https://youtu.be/SIyYHMYpKgI) | [here](https://drive.google.com/drive/folders/1OyIpXFGKaec6ZzHyl2URHB0KDGWgjWs9) |
-| 07 | Compute Performance Metrics without Scikit-Learn | [video](https://youtu.be/dKRV58PUsvE) | [here](https://drive.google.com/drive/folders/19T9S2umBGuYHJApWV3u6cBSKkl8Ggo73) |
+| 07 | Performance Metrics | [video](https://youtu.be/dKRV58PUsvE) | [here](https://drive.google.com/drive/folders/19T9S2umBGuYHJApWV3u6cBSKkl8Ggo73) |
 | 08 | Naive Bayes on DonorsChoose Dataset | [video 1](https://youtu.be/Bf1I-IzI8-U) <br> [video 2](https://youtu.be/zkBwtAmYeFg) <br> [video 3](https://youtu.be/KtwQeEwMHE0) <br> [video 4](https://youtu.be/svgy5_NHogk) <br> [video 5](https://youtu.be/f_HLHQUGA78) <br> [video 6](https://youtu.be/ZhLXULFjIjQ) <br> [video 7](https://youtu.be/2zP3wPy7huw) <br> [video 8](https://youtu.be/UeEfJT_isr0) <br> [video 9](https://youtu.be/AbabyIk0xW4) | [here](https://drive.google.com/drive/folders/1Z9rSTNsSLyXeNI33KT9O42omfVl8AFWQ) |
 | 09 | SGD Classifier with Logloss and L2 Regularization using SGD | [video](https://youtu.be/Zc6RBeTrYjE) | [here](https://drive.google.com/drive/u/1/folders/1tIdxFyYdxw8XARDsFjCi2OTSCuSX1NBj) |
 | 10 | Behavior of Linear Models | [video](https://youtu.be/O5JdwJH9eg8) | [here](https://drive.google.com/open?id=1BiHVEnsCpP-UmVK0W6upN-kOzI1a93Sb) |
