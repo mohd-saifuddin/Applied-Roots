@@ -1,1 +1,30 @@
 # Assignments
+
+| No | Assignment Name | Videos | References |
+| --- | --- | --- | --- |
+| 03 | Python Mandatory | [video](https://youtu.be/UXKXA-pzv94) | [here](https://drive.google.com/drive/u/0/folders/1bpvQAoFednuXeL0VaQwM7PY0cpElLbr5) |
+| 04 | Exploratory Data Analysis on Haberman Dataset | NA | [here](https://drive.google.com/drive/folders/1X2l6Dbec_88EuN2B6USCjOHNb5GLk6N2) |
+| 05 | TFIDF Vectorizer | [video](https://youtu.be/Djd7pq8PCzs) | [here](https://drive.google.com/drive/folders/1KPbov9Acv9bNEJQaLEICKCunn-CfrDn6) |
+| 06 | RandomSearchCV with K-fold Cross Validation on KNN | [video 1](https://youtu.be/9p7MPDjp_2U) <br> [video 2](https://youtu.be/SIyYHMYpKgI) | [here](https://drive.google.com/drive/folders/1OyIpXFGKaec6ZzHyl2URHB0KDGWgjWs9) |
+| 07 | Compute Performance Metrics without `scikit-learn` | [video](https://youtu.be/dKRV58PUsvE) | [here](https://drive.google.com/drive/folders/19T9S2umBGuYHJApWV3u6cBSKkl8Ggo73) |
+| 08 | Naive Bayes on DonorsChoose Dataset | [video 1](https://youtu.be/Bf1I-IzI8-U) <br> [video 2](https://youtu.be/zkBwtAmYeFg) <br> [video 3](https://youtu.be/KtwQeEwMHE0) <br> [video 4](https://youtu.be/svgy5_NHogk) <br> [video 5](https://youtu.be/f_HLHQUGA78) <br> [video 6](https://youtu.be/ZhLXULFjIjQ) <br> [video 7](https://youtu.be/2zP3wPy7huw) <br> [video 8](https://youtu.be/UeEfJT_isr0) <br> [video 9](https://youtu.be/AbabyIk0xW4) | [here](https://drive.google.com/drive/folders/1Z9rSTNsSLyXeNI33KT9O42omfVl8AFWQ) |
+| 09 | SGD Classifier with Logloss and L2 Regularization using SGD | [video](https://youtu.be/Zc6RBeTrYjE) | [here](https://drive.google.com/drive/u/1/folders/1tIdxFyYdxw8XARDsFjCi2OTSCuSX1NBj) |
+| 10 | Behavior of Linear Models | [video](https://youtu.be/O5JdwJH9eg8) | [here](https://drive.google.com/open?id=1BiHVEnsCpP-UmVK0W6upN-kOzI1a93Sb) |
+| 11 | Decision Trees on DonorsChoose Dataset | [video](https://youtu.be/fprEYd8A1oM) | [here](https://drive.google.com/drive/folders/165O0Nc_m2Q4qGm8hS5anFooKT1s2dzAA) |
+| 12 | Bootstrap samples in Random Forest | [video](https://youtu.be/kiy1ScdqR-E) | [here](https://drive.google.com/drive/folders/12tUhhNKQpJNAs71Sj-9CSzj2WqsowD6h) |
+| 13 | GBDT on DonorsChoose Dataset | [video](https://youtu.be/lLsUswE50zE) | [here](https://drive.google.com/drive/folders/1HDgdb1O4A1fL6VM8Ugk5S0P6uy2ffWBX) |
+| 14 | Clustering on Graph Dataset | [video 1](https://youtu.be/_XJlZtZqMUs) <br> [video 2](https://youtu.be/Ufe16ie-BPM) | [here](https://drive.google.com/drive/folders/1k66LkdZNCKmVgKoyIG1K0I8_hRkIpgas) |
+| 15 | Recommendation Systems and Truncated SVD SGD Algorithm | [video](https://youtu.be/DFMoOdw3p64) | [here](https://drive.google.com/drive/folders/1HZ3D_0r9r5dfwReZtc8fCnoPNToe5aoL) |
+| 16 | Microsoft Malware Detection | [video 1](https://youtu.be/wn0_xFcfz9s) <br> [video 2](https://youtu.be/VLQTRlLGz5Y) | [here](https://drive.google.com/drive/folders/1ujh2OJ92AiNJOdW4etCLR59-etaCVzl3) |
+| 17 | Facebook Friend Recommendation | NA | [here](https://drive.google.com/drive/folders/1c50Q5RcmdpMYj1jCPc3ShOE2y4G8G2ez) <br> [here](http://be.amazd.com/link-prediction/) <br> [here](https://storage.googleapis.com/kaggle-forum-message-attachments/2594/supervised_link_prediction.pdf) |
+| 18 | SQL on IMDB Data | NA | [here](https://drive.google.com/drive/folders/1eUUD9Hw5cvby4IUHVXGg8t9Ytelp8QlN?usp=sharing) |
+| 19 | Backpropagation and Gradient Checking | [video](https://youtu.be/19WqXIPtkuQ) | [here](https://drive.google.com/drive/folders/1dVO9zeaLcMTP-NUX47AdV5deOTMcrK_Q) |
+| 20 | Callbacks | [video 1](https://youtu.be/P4cZM_2F__I) <br> [video 2](https://youtu.be/fa0vXt_tV_M) <br> [video 3](https://youtu.be/PurkIla_hGk) | [here](https://drive.google.com/drive/folders/1wwOSs7psnWLmejtM1a0U4HtqWfcmfEVW) <br> [here](https://dataaspirant.com/difference-between-softmax-function-and-sigmoid-function/) |
+| 21 | Document Classification with CNN | [video](https://youtu.be/HrFvuKUsDVA) | [here](https://drive.google.com/open?id=13dXJZqM3nIG8ynV9hs8o49ecXZ0La6jE) |
+| 25 | Transfer Learning | [video 1](https://youtu.be/mKMYneSIvLQ) <br> [video 2](https://youtu.be/6xTUhg-Ix8Y) | [here](https://drive.google.com/open?id=1eY4pTqtGtXSAYVzaHwWAK2Cq4bHb1Zkq) <br> [here](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html) |
+| 26 | LSTM on DonorsChoose Dataset | [video 1](https://youtu.be/uXj4WyHqhEQ) <br> [video 2](https://youtu.be/JSggkd9Eu2Q) <br> [video 3](https://youtu.be/iQalv3j5LjM) <br> [video 4](https://youtu.be/fBCNDjROcC0) <br> [video 5](https://youtu.be/bRD0tR13vsA) <br> [video 6](https://youtu.be/bIqLrz8Ht1M) <br> [video 7](https://youtu.be/UMpfiDGKhx8) <br> [video 8](https://youtu.be/ElgJ5LgIlyk) <br> [video 9](https://youtu.be/NHTYDK14ooo) | [here](https://drive.google.com/drive/u/0/folders/1CJnItndeSSJu7aragQoXWZS9-0apN6pp) |
+| 27 | CNN on CIFR | NA | [here](https://drive.google.com/drive/folders/1J1bNXkInpalTRrZgru_Mb1mBeLG38XjQ?usp=sharing) |
+| 28 | NLP with Transfer Learning | [video](https://youtu.be/nOjNK4VYq6U) | [here](https://drive.google.com/drive/folders/1cSxMlj_KyUEK_3ZU609oFCTkYIMLwk6s?usp=sharing) |
+| 29 | Computer Vision Segmentation | [video 1](https://youtu.be/P5TOCwn6DL0) <br> [video 2](https://youtu.be/lhFRGo6BG1U) <br> [video 3](https://youtu.be/nYzj3ACSf-E) <br> [video 4](https://youtu.be/dGPT7PVCCAM) | [here](https://drive.google.com/drive/folders/1bynkOIXCurhJ9_Y5Q14KWX5yDyCRkKfN?usp=sharing) |
+| 30 | Spoken Digit Recognition | [video](https://youtu.be/fRUqGJx3jsQ) | [here](https://drive.google.com/open?id=1ulbWjQCcBMqwZGqwsLlCXb-Paf5MWeN_) |
+| 31 | NLP Attention Mechanism | [video 1](https://youtu.be/ucPaDluM4E8) <br> [video 2](https://youtu.be/OiGvzLEVO9c) <br> [video 3](https://youtu.be/BI1lVp8qmEY) <br> [video 4](https://youtu.be/cNmSeJqR37U) | [here](https://drive.google.com/drive/folders/1KerHh7lnsRa5sgHcyjjNI9PLlmURVLSp?usp=sharing) |
