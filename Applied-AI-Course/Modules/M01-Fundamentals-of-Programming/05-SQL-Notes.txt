@@ -493,8 +493,7 @@ Here, genre_count is the alias of COUNT(genre).
 
 SELECT rankscore, COUNT(rankscore) rank_count
 FROM movies
-GROUP BY
-rankscore
+GROUP BY rankscore
 ORDER BY rankscore
 LIMIT 10;
 +-----------+------------+
