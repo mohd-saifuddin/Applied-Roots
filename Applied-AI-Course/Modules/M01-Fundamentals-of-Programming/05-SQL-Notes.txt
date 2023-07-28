@@ -1406,7 +1406,7 @@ FOREIGN KEY: Prevents actions that would destroy links between tables.
 CHECK: Ensures that the values in a column satisfies a specific condition.
 DEFAULT: Sets a default value for a column if no value is specified.
 CREATE INDEX: Used to create and retrieve data from the database very quickly.
-              Imagine the Index in books. The Index help sspeed up the search in a book.
+              Imagine the Index in books. The Index helps speed up the search in a book.
 
 ALTER: This command is used to ADD, MODIFY and DELETE columns in an existing table.
        This is also used to add and drop various constraints on in existing table.
@@ -1520,7 +1520,7 @@ Difference between DELETE, TRUNCATE and DROP commands.
 
 DELETE: It is a DML command that is used to remove the data from a table.
         It can be used in conjunction with WHERE to delete only the rows meeting the specified condition.
-        It can behave like TRUNCATE, when no condition is used specified in WHERE clause.
+        It can behave like TRUNCATE, when no condition is specified in WHERE clause.
 
 TRUNCATE: It is a DDL command which is used to remove all the rows from a table.
           However, it does not delete the table.
